@@ -1,0 +1,196 @@
+
+		Dataset Card for Gigaspeech
+	
+		Dataset Description
+	
+GigaSpeech is an evolving, multi-domain English speech recognition corpus with 10,000 hours of high quality labeled audio suitable for supervised training. The transcribed audio data is collected from audiobooks, podcasts and YouTube, covering both read and spontaneous speaking styles, and a variety of topics, such as arts, science, sports, etc.
+		Example Usage
+	
+The training split has several configurations of various size:
+XS, S, M, L, XL. See the Section on "Data Splits" for more information. To download the XS configuration:
+from datasets import load_dataset
+gs = load_dataset("speechcolab/gigaspeech", "xs", use_auth_token=True)
+# see structure
+print(gs)
+# load audio sample on the fly
+audio_input = gs["train"][0]["audio"]  # first decoded audio sample
+transcription = gs["train"][0]["text"]  # first transcription
+It is possible to download only the development or test data:
+gs_dev = load_dataset("speechcolab/gigaspeech", "dev", use_auth_token=True)
+gs_test = load_dataset("speechcolab/gigaspeech", "test", use_auth_token=True)
+		Supported Tasks and Leaderboards
+	
+automatic-speech-recognition: The dataset can be used to train a model for Automatic Speech Recognition (ASR). The model is presented with an audio file and asked to transcribe the audio file to written text. The most common evaluation metric is the word error rate (WER). The task has an active leaderboard which can be found at https://github.com/SpeechColab/GigaSpeech#leaderboard and ranks models based on their WER.
+text-to-speech, text-to-audio: The dataset can also be used to train a model for Text-To-Speech (TTS).
+		Languages
+	
+Gigaspeech contains audio and transcription data in English.
+		Dataset Structure
+	
+		Data Instances
+	
+{
+    'segment_id': 'YOU0000000315_S0000660', 
+    'speaker': 'N/A', 
+    'text': "AS THEY'RE LEAVING <COMMA> CAN KASH PULL ZAHRA ASIDE REALLY QUICKLY <QUESTIONMARK>", 
+    'audio': 
+        {
+            # in streaming mode 'path' will be 'xs_chunks_0000/YOU0000000315_S0000660.wav'
+            'path': '/home/user/.cache/huggingface/datasets/downloads/extracted/9d48cf31/xs_chunks_0000/YOU0000000315_S0000660.wav', 
+            'array': array([0.0005188 , 0.00085449, 0.00012207, ..., 0.00125122, 0.00076294, 0.00036621], dtype=float32), 
+            'sampling_rate': 16000
+        }, 
+    'begin_time': 2941.889892578125, 
+    'end_time': 2945.070068359375, 
+    'audio_id': 'YOU0000000315', 
+    'title': 'Return to Vasselheim | Critical Role: VOX MACHINA | Episode 43', 
+    'url': 'https://www.youtube.com/watch?v=zr2n1fLVasU', 
+    'source': 2, 
+    'category': 24,
+    'original_full_path': 'audio/youtube/P0004/YOU0000000315.opus'
+}
+		Data Fields
+	
+segment_id (string) - string id of the segment.
+speaker (string) - string id of the speaker (can be "N/A").
+text (string) - transcription of the segment.
+begin_time (float) - start time of the segment in an original full audio.
+end_time (float32) - end time of the segment in an original full audio.
+audio (Audio feature) - a dictionary containing the path to the audio, the decoded audio array, and the sampling rate.
+In non-streaming mode (default), the path point to the locally extracted audio. In streaming mode, the path is the relative path of an audio.
+segment inside its archive (as files are not downloaded and extracted locally).
+audio_id (string) - string idea of the original full audio.
+title (string) - title of the original full audio.
+url (string) - url of the original full audio.
+source (ClassLabel) - id of the audio source. Sources are audiobook (0), podcast (1), and YouYube (2).
+category (ClassLabel) - id of the audio category, categories are listed below.
+original_full_path (string) - the relative path to the original full audio sample in the original data directory.
+Categories are assigned from the following labels: 
+"People  and  Blogs", "Business", "Nonprofits  and  Activism", "Crime", "History", "Pets  and  Animals", 
+"News and Politics", "Travel and Events", "Kids and Family", "Leisure", "N/A", "Comedy", "News  and  Politics", 
+"Sports", "Arts", "Science  and  Technology", "Autos  and  Vehicles", "Science and Technology", "People and Blogs", 
+"Music", "Society and Culture", "Education", "Howto  and  Style", "Film  and  Animation", "Gaming", "Entertainment", 
+"Travel  and  Events", "Health and Fitness", "audiobook".
+		Data Splits
+	
+The dataset has three splits: train, evaluation (dev) and test. The train split has five configurations of various sizes:
+XS, S, M, L, XL. Larger subsets are supersets of smaller subsets, e.g., the L subset contains all the data from the M subset.
+		Transcribed Training Subsets Size
+	
+Subset
+Hours
+Remarks
+XS
+10
+System building and debugging
+S
+250
+Quick research experiments
+M
+1,000
+Large-scale research experiments
+L
+2,500
+Medium-scale industrial experiments
+XL
+10,000
+Large-scale industrial experiments
+		Transcribed Evaluation Subsets
+	
+Subset
+Hours
+Remarks
+Dev
+12
+Randomly selected from the crawled Podcast and YouTube Data
+Test
+40
+Part of the subset was randomly selected from the crawled Podcast and YouTube data; part of it was manually collected through other channels to have better coverage.
+		Dataset Creation
+	
+		Curation Rationale
+	
+[More Information Needed]
+		Source Data
+	
+Audio Source
+Transcribed Hours
+Acoustic Condition
+Audiobook
+2,655
+ReadingVarious ages and accents
+Podcast
+3,498
+Clean or background musicIndoorNear-fieldSpontaneousVarious ages and accents
+YouTube
+3,845
+Clean and noisyIndoor and outdoorNear- and far-fieldReading and spontaneousVarious ages and accents
+Total
+10,000
+		Initial Data Collection and Normalization
+	
+[More Information Needed]
+		Who are the source language producers?
+	
+[More Information Needed]
+		Annotations
+	
+		Annotation process
+	
+[More Information Needed]
+		Who are the annotators?
+	
+Development and test subsets are annotated by professional human annotators.
+		Personal and Sensitive Information
+	
+[More Information Needed]
+		Considerations for Using the Data
+	
+		Social Impact of Dataset
+	
+[More Information Needed]
+		Discussion of Biases
+	
+[More Information Needed]
+		Other Known Limitations
+	
+[More Information Needed]
+		Additional Information
+	
+		Dataset Curators
+	
+[More Information Needed]
+		Licensing Information
+	
+SpeechColab does not own the copyright of the audio files. For researchers and educators who wish to use the audio files for 
+non-commercial research and/or educational purposes, we can provide access through our site under certain conditions and terms.
+In general, when training a machine learning model on a given dataset, the license of the model is independent to that of the
+dataset. That is to say, speech recognition models trained on the GigaSpeech dataset may be eligible for commercial license, 
+provided they abide to the 'Fair Use' terms of the underlying data and do not violate any explicit copyright restrictions. 
+This is likely to be true in most use-cases. However, it is your responsiblity to verify the appropriate model license for 
+your specific use-case by confirming that the dataset usage abides by the Fair Use terms. SpeechColab is not responsible 
+for the license of any machine learning model trained on the GigaSpeech dataset.
+		Citation Information
+	
+Please cite this paper if you find this work useful:
+@inproceedings{GigaSpeech2021,
+  title={GigaSpeech: An Evolving, Multi-domain ASR Corpus with 10,000 Hours of Transcribed Audio},
+  booktitle={Proc. Interspeech 2021},
+  year=2021,
+  author={Guoguo Chen, Shuzhou Chai, Guanbo Wang, Jiayu Du, Wei-Qiang Zhang, Chao Weng, Dan Su, Daniel Povey, Jan Trmal, Junbo Zhang, Mingjie Jin, Sanjeev Khudanpur, Shinji Watanabe, Shuaijiang Zhao, Wei Zou, Xiangang Li, Xuchen Yao, Yongqing Wang, Yujun Wang, Zhao You, Zhiyong Yan}
+}
+		Contributions
+	
+Thanks to @polinaeterna and @sanchit-gandhi 
+for adding this dataset.
+		Terms of Access
+	
+The "Researcher" has requested permission to use the GigaSpeech database (the "Database") 
+at Tsinghua University. In exchange for such permission, Researcher hereby agrees to the 
+following terms and conditions:
+Researcher shall use the Database only for non-commercial research and educational purposes.
+The SpeechColab team and Tsinghua University make no representations or warranties regarding the Database, including but not limited to warranties of non-infringement or fitness for a particular purpose.
+Researcher accepts full responsibility for his or her use of the Database and shall defend and indemnify the SpeechColab team and Tsinghua University, including their employees, Trustees, officers and agents, against any and all claims arising from Researcher's use of the Database, including but not limited to Researcher's use of any copies of copyrighted audio files that he or she may create from the Database.
+Researcher may provide research associates and colleagues with access to the Database provided that they first agree to be bound by these terms and conditions.
+The SpeechColab team and Tsinghua University reserve the right to terminate Researcher's access to the Database at any time.
+If Researcher is employed by a for-profit, commercial entity, Researcher's employer shall also be bound by these terms and conditions, and Researcher hereby represents that he or she is fully authorized to enter into this agreement on behalf of such employer.

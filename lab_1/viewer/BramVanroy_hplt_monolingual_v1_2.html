@@ -1,0 +1,117 @@
+
+		HPLT Monolingual Release v1.2
+	
+This repository contains the means to access the datasets created by the HPLT project. These large-scale web-crawled corpora based on CommonCrawl and the Internet Archive are accessible in 75 languages. The full dump is available as well as deduplicated and further cleaned versions depending on the config that you use (see the usage example below).
+		Prerequisites
+	
+HPLT compresses their files with zst so to use this library you need to make sure that zstandard is installed:
+pip install zstandard
+		Usage
+	
+You can download either the full portion of the data (e.g. nl), its deduplicated set (nl_deduplicated), or the fully cleaned set (nl_cleaned).
+You'll soon need to use trust_remote_code=True to download this dataset. This is required so that downloading the dataset can be done directly from HPLT.
+from datasets import load_dataset
+ds = load_dataset(
+    "BramVanroy/hplt_monolingual_v1_2",
+    "ky",
+    # or "ky_deduplicated",
+    # or "ky_cleaned",
+    trust_remote_code=True
+)
+		Supported languages
+	
+{
+    "af": "Afrikaans",
+    "ar": "Arabic",
+    "az": "Azerbaijani",
+    "be": "Belarusian",
+    "bg": "Bulgarian",
+    "bn": "Bangla",
+    "ca": "Catalan",
+    "cs": "Czech",
+    "cy": "Welsh",
+    "da": "Danish",
+    "de": "German",
+    "el": "Greek",
+    "en": "English",
+    "eo": "Esperanto",
+    "es": "Spanish",
+    "et": "Estonian",
+    "eu": "Basque",
+    "fa": "Persian",
+    "fi": "Finnish",
+    "fr": "French",
+    "ga": "Irish",
+    "gl": "Galician",
+    "gu": "Gujarati",
+    "hbs": "Serbo-Croatian",
+    "he": "Hebrew",
+    "hi": "Hindi",
+    "hu": "Hungarian",
+    "hy": "Armenian",
+    "id": "Indonesian",
+    "is": "Icelandic",
+    "it": "Italian",
+    "ja": "Japanese",
+    "ka": "Georgian",
+    "kk": "Kazakh",
+    "kn": "Kannada",
+    "ko": "Korean",
+    "ky": "Kyrgyz",
+    "la": "Latin",
+    "lt": "Lithuanian",
+    "lv": "Latvian",
+    "mk": "Macedonian",
+    "ml": "Malayalam",
+    "mn": "Mongolian",
+    "mr": "Marathi",
+    "ms": "Malay",
+    "mt": "Maltese",
+    "my": "Burmese",
+    "nb": "Norwegian Bokmål",
+    "ne": "Nepali",
+    "nl": "Dutch",
+    "nn": "Norwegian Nynorsk",
+    "pa": "Punjabi",
+    "pl": "Polish",
+    "ps": "Pashto",
+    "pt": "Portuguese",
+    "ro": "Romanian",
+    "ru": "Russian",
+    "si": "Sinhala",
+    "sk": "Slovak",
+    "sl": "Slovenian",
+    "so": "Somali",
+    "sq": "Albanian",
+    "sv": "Swedish",
+    "sw": "Swahili",
+    "ta": "Tamil",
+    "te": "Telugu",
+    "th": "Thai",
+    "tl": "Filipino",
+    "tr": "Turkish",
+    "tt": "Tatar",
+    "uk": "Ukrainian",
+    "ur": "Urdu",
+    "uz": "Uzbek",
+    "vi": "Vietnamese",
+    "zh": "Chinese"
+}
+		Fields
+	
+id: Document ID
+document_lang: Document language identified by CLD2 during the WARC extraction process.
+scores: Language identification scores for each paragraph in the document. 
+langs: Language with highest score for each paragraph in the document.
+text: The document's text (a concatenation of newline-separated paragraphs).
+url: Document URL.
+collection: Collection name.
+		Data removal
+	
+Found data that you would like removed in the next release? Contact the data creators.
+		License
+	
+HPLT states the following:
+These data are released under this licensing scheme:
+We do not own any of the text from which these text data has been extracted.
+We license the actual packaging of these text data under the Creative Commons CC0 license ("no rights reserved").

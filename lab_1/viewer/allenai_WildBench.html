@@ -1,0 +1,61 @@
+
+ 
+		🦁 WildBench: Benchmarking LLMs with Challenging Tasks from Real Users in the Wild
+	
+		Quick Links:
+	
+HF Leaderboard
+HF Dataset
+Github
+		Dataset Description
+	
+License: https://allenai.org/licenses/impact-lr
+Language(s) (NLP): English
+Point of Contact: Yuchen Lin
+WildBench is a subset of WildChat, which has been openly released under AI2's ImpACT license as a low-risk artifact. The use of WildChat data to cause harm is strictly prohibited.
+		Data Fields
+	
+The dataset on Hugging Face is organized with several features, each of which is designed to capture specific information pertinent to the data being represented. Here is a descriptive breakdown of each feature:
+id: A unique identifier for each entry, represented as an integer (int64). Not often used.
+session_id: A string that uniquely identifies an example, which is usually used as id.
+conversation_input: A list structure that encompasses multiple attributes related to the input of the conversation:
+content: The actual text content of the conversation input, stored as a string.
+language: A string indicating the language used in the conversation input.
+redacted: A boolean flag (bool) to denote whether any part of the content has been redacted for privacy or other reasons.
+role: A string indicating the role of the party in the conversation (e.g., 'user', 'assistant').
+toxic: A boolean indicating whether the content contains any toxic elements.
+references: A list of dict items.
+gpt-4: The value is the gpt-4 generation as the assistant to the next turn.
+checklist: A sequence of strings that could represent a set of questions to evaluate the outputs.
+length: An integer (int64) representing the length of the conversation or content. Note that this is the number of messages.
+primary_tag: A string that labels the entry with a primary category.
+secondary_tags: A sequence of strings providing additional categorizations.
+intent: A string indicating the underlying intent of the conversation or the interaction instance.
+appropriate: A string that assesses or describes whether the conversation or content is considered appropriate, potentially in terms of content, context, or some other criteria.
+		Introduction of the WildBench Leaderboard
+	
+ What is WildBench? Why should I use it?
+    🦁 WildBench is a benchmark for evaluating large language models (LLMs) on challenging tasks that are more representative of real-world applications. The examples are collected from real users by the AI2 WildChat project.
+    
+🆕 Motivation: We aim to provide a more realistic and challenging benchmark for evaluating LLMs, as opposed to existing benchmarks that do not capture the diversity and complexity of real-world tasks.    
+    🌠 Key Features:
+🌟 Fine-grained: 
+        We provide a fine-grained annotation for each example, including task types and checklists for evaluating the quality of responses. In addition, we use length-penalized Elo ratings to ensure that the quality of responses is not biased towards longer outputs.
+🌟 Transparent & Fair:  We test all LLMs on the SAME set of examples, ensuring a fair  evaluation. You can explore the data and see the difference between two models to analyze the concrete gap between any pair of LLMs. 
+🌟 Easy & Fast: WildBench (v1.0) contains 1024 examples, and it is extremely easy to add your own LLMs to our leaderboard! 1️⃣ Let us know your model ID and suggested inference configs; 2️⃣ We'll run inference and evaluation for you; 3️⃣ Voilà! We'll notify you when your results are ready on the leaderboard.
+🌟 Dynamic: WildBench will not be a static dataset. We will continue adding new examples and updating evaluation methods. Our goal is to include new challenging examples from real users over time and provide fast yet reliable evaluations.
+🌟 Human Verification (ongoing): Although we currently use GPT-4 as the automatic evaluator, we are also collecting human preferences here (see the 🔍 🆚 Tab). We plan to update the leaderboard by incorporating human evaluations in the near future.
+🌟 Community-driven: In addition to collecting human preferences for improving our evaluation, we also welcome community users to contribute new examples they find challenging to top LLMs like GPT-4/Claude3. Any feedback and suggestions are welcome, and we'll do our best to upgrade our data and evaluation methods accordingly.    
+		Licensing Information
+	
+WildChat is made available under the AI2
+  ImpACT License - Low Risk Artifacts ("LR
+  Agreement")
+		Citation
+	
+@misc{wildbench2024,
+    title        = {WildBench: Benchmarking LLMs with Challenging Tasks from Real Users in the Wild},
+    author       = {Bill Yuchen Lin and Khyathi Chandu and Faeze Brahman and Yuntian Deng and Abhilasha Ravichander and Valentina Pyatkin and Ronan Le Bras and Yejin Choi},
+    year         = 2024,
+    url			 = {https://huggingface.co/spaces/allenai/WildBench},
+}

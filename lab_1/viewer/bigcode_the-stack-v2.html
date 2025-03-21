@@ -1,0 +1,183 @@
+
+		The Stack v2
+	
+The dataset consists of 4 versions:
+bigcode/the-stack-v2: the full "The Stack v2" dataset <-- you are here
+bigcode/the-stack-v2-dedup: based on the bigcode/the-stack-v2 but further near-deduplicated
+bigcode/the-stack-v2-train-full-ids: based on the bigcode/the-stack-v2-dedup dataset but further filtered with heuristics and spanning 600+ programming languages. The data is grouped into repositories.
+bigcode/the-stack-v2-train-smol-ids: based on the bigcode/the-stack-v2-dedup dataset but further filtered with heuristics and spanning 17 programming languages. The data is grouped into repositories.
+These datasets only contain the SWHIDs to download the code files and not the content of the files itself. See examples below to see how to download content. We are working on making the training datasets available in the coming weeks.
+The Stack v2 is significantly larger than v1:
+The Stack v1
+The Stack v2
+full
+6.4TB
+67.5TB
+dedup
+2.9TB
+32.1TB
+train (full)
+~200B tokens
+~900B tokens
+		Changelog
+	
+Release
+Description
+v1.0
+Initial release of the Stack v2
+		Dataset Summary
+	
+The Stack v2 contains over 3B files in 600+ programming and markup languages. The dataset was created as part of the BigCode Project, an open scientific collaboration working on the responsible development of Large Language Models for Code (Code LLMs). The Stack serves as a pre-training dataset for Code LLMs, i.e., code-generating AI systems which enable the synthesis of programs from natural language descriptions as well as other from code snippets.
+This dataset is derived from the Software Heritage archive, the largest public archive of software source code and accompanying development history. Software Heritage is an open, non profit initiative to collect, preserve, and share the source code of all publicly available software, launched by Inria, in partnership with UNESCO. We acknowledge Software Heritage for providing access to this invaluable resource. For more details, visit the Software Heritage website.
+		Languages
+	
+The dataset contains 658 languages. The full list can be found in the language stats table.
+		How to use it
+	
+from datasets import load_dataset
+# full dataset (file IDs only)
+ds = load_dataset("bigcode/the-stack-v2", split="train")
+# specific language (e.g. Dockerfiles)
+ds = load_dataset("bigcode/the-stack-v2", "Dockerfile", split="train")
+# dataset streaming (will only download the data as needed)
+ds = load_dataset("bigcode/the-stack-v2", streaming=True, split="train")
+for sample in iter(ds): 
+    print(sample) 
+		Downloading the file contents
+	
+The file contents are stored in the Software Heritage S3 bucket to ensure data compliance. Downloading data in bulk requires an agreement with SoftwareHeritage and INRIA as stated in the dataset agreement.
+Make sure to configure your environment with your AWS credentials. 
+pip install smart_open[s3]
+import os
+import boto3
+from smart_open import open
+from datasets import load_dataset
+session = boto3.Session(
+    aws_access_key_id=os.environ["AWS_ACCESS_KEY_ID"],
+    aws_secret_access_key=os.environ["AWS_SECRET_ACCESS_KEY"])
+s3 = session.client("s3")
+def download_contents(blob_id, src_encoding):
+    s3_url = f"s3://softwareheritage/content/{blob_id}"
+    
+    with open(s3_url, "rb", compression=".gz", transport_params={"client": s3}) as fin:
+        content = fin.read().decode(src_encoding)
+    
+    return {"content": content}
+ds = load_dataset("bigcode/the-stack-v2", split="train", streaming=True)
+ds = ds.map(lambda row: download_contents(row["blob_id"], row["src_encoding"]))
+for row in ds:
+    print(row["content"])
+    break
+		Dataset Structure
+	
+		Data Fields
+	
+blob_id (string): Software Heritage (SWH) ID of the file on AWS S3.
+directory_id (string): SWH ID of the root directory of the repository.
+path (string): The file path within the repository.
+content_id (string): SWH content ID.
+detected_licenses (string[]): List of licenses (SPDX) detected by ScanCode.
+license_type (string): Inferred license type (permissive or no_license).
+repo_name (string): Repository name on GitHub.
+snapshot_id (string): SWH snapshot ID.
+revision_id (string): SWH revision (commit) ID.
+branch_name (string): Repository branch name.
+visit_date (timestamp[ns]): SWH crawl (snapshot) timestamp.
+revision_date (timestamp[ns]): SWH revision (commit) timestamp.
+committer_date (timestamp[ns]): SWH revision (commit) timestamp reported by the committer.
+github_id (int64): GitHub identifier for the repository.
+star_events_count (int64): number of stars calculated from GHArchive events.
+fork_events_count (int64): number of forks calculated from GHArchive events.
+gha_license_id (string): GHArchive SPDX license identifier, None if the repo is missing.
+gha_event_created_at (timestamp[ns]): Timestamp of the latest event on GHArchive for this repository.
+gha_created_at (timestamp[ns]): Timestamp of repository creation on GitHub, None if the repo is missing.
+gha_language (string): Repository's primary programming language on GitHub, None if the repo is missing.
+src_encoding (string): Original encoding of the file content befre converting to UTF-8.
+language (string): Programming language of the file, detected by go-enry / linguist.
+is_vendor (bool): Indicator of vendor file (external library), detected by go-enry.
+is_generated (bool): Indicator of generated file (external library), detected by go-enry.
+length_bytes (int64): Length of the file content in UTF-8 bytes.
+extension (string): File extension.
+		Data Splits
+	
+The dataset has no splits and all data is loaded as train split by default. If you want to setup a custom train-test split beware that dataset contains a lot of near-duplicates which can cause leakage into the test split.
+		Dataset Creation
+	
+For more information on the dataset creation pipeline please refer to the technical report.
+		Curation Rationale
+	
+One of the challenges faced by researchers working on code LLMs is the lack of openness and transparency around the development of these systems. Most prior works described the high-level data collection process but did not release the training data. It is therefore difficult for other researchers to fully reproduce these models and understand what kind of pre-training data leads to high-performing code LLMs. By releasing an open large-scale code dataset we hope to make training of code LLMs more reproducible.
+		Source Data
+	
+		Data Collection
+	
+3.28B unique files belonging to 104.2M github repositories were collected by traversing the Software Heritage 2023-09-06 graph dataset.
+Additional repository-level metadata was collected from GitHub Archive data up to 2023-09-14.
+The total uncompressed size of all files is 67.53TB.
+Near-deduplication was implemented in the pre-processing pipeline on top of exact deduplication. 
+Roughly 40% of permissively licensed files were (near-)duplicates.
+The following are not stored:
+Files that cannot contribute to training code: binary, empty, could not be decoded
+Files larger than 10MB
+Training Datasets: For the training datasets the programming languages were filtered further to 17 and 600+ for the the-stack-v2-smol-ids and the-stack-v2-full-ids dataset, respecively. In addition, heuristics were applied to further increase the quality of the dataset. The code files are also grouped into repositories to allow to pretrain with full repository context. For more details see the technical report.
+		License detection
+	
+We extract repository-level license information from GH Archive for all repositories with matching names in the SWH dataset. 
+When the repo-level license is not available, i.e., for 96.93% of repositories, we use the ScanCode Toolkit to detect file-level licenses as follows:
+Find all filenames that could contain a license (e.g., LICENSE, MIT.txt, Apache2.0) or contain a reference to the license (e.g., README.md, GUIDELINES);
+Apply ScanCode's license detection to the matching files and gather the SPDX IDs of the detected licenses;
+Propagate the detected licenses to all files that have the same base path within the repository as the license file.
+The licenses we consider permissive are listed here. 
+This list was compiled from the licenses approved by the Blue Oak Council, 
+as well as licenses categorized as "Permissive" or "Public Domain" by ScanCode.
+		Who are the source language producers?
+	
+The source (code) language producers are users of GitHub that created unique repository names up until 2023-09-06 (cutoff date).
+		Personal and Sensitive Information
+	
+The released dataset may contain sensitive information such as emails, IP addresses, and API/ssh keys that have previously been published to public repositories on GitHub. Deduplication has helped to reduce the amount of sensitive data that may exist. In the event that the dataset contains personal information, researchers should only use public, non-personal information in support of conducting and publishing their open-access research. Personal information should not be used for spamming purposes, including sending unsolicited emails or selling of personal information. Complaints, removal requests, and "do not contact" requests can be sent to contact@bigcode-project.org.
+		Opting out of The Stack v2
+	
+We are giving developers the ability to have their code removed from the dataset upon request. The process for submitting and enacting removal requests will keep evolving throughout the project as we receive feedback and build up more data governance tools.
+You can check if your code is in The Stack v2 with the following "Am I In The Stack?" Space. If you'd like to have your data removed from the dataset follow the instructions on GitHub.
+		Considerations for Using the Data
+	
+		Social Impact of Dataset
+	
+The Stack v2 is an output of the BigCode Project. BigCode aims to be responsible by design and by default. The project is conducted in the spirit of Open Science, focused on the responsible development of LLMs for code.
+With the release of The Stack v2, we aim to increase access, reproducibility, and transparency of code LLMs in the research community. Work to de-risk and improve on the implementation of ethical best practices of code LLMs is conducted in various BigCode working groups. The Legal, Ethics, and Governance working group has explored topics such as licensing (including copyleft and the intended use of permissively licensed code), attribution of generated code to original code, rights to restrict processing, the inclusion of Personally Identifiable Information (PII), and risks of malicious code, among other topics. This work is ongoing as of October 25th, 2022.
+We expect code LLMs to enable people from diverse backgrounds to write higher quality code and develop low-code applications. Mission-critical software could become easier to maintain as professional developers are guided by code-generating systems on how to write more robust and efficient code. While the social impact is intended to be positive, the increased accessibility of code LLMs comes with certain risks such as over-reliance on the generated code and long-term effects on the software development job market.
+A broader impact analysis relating to Code LLMs can be found in section 7 of this paper. An in-depth risk assessments for Code LLMs can be found in section 4 of this paper.
+		Discussion of Biases
+	
+The code collected from GitHub does not contain demographic information or proxy information about the demographics. However, it is not without risks,
+as the comments within the code may contain harmful or offensive language, which could be learned by the models. 
+Widely adopted programming languages like C and Javascript are overrepresented compared to niche programming languages like Julia and Scala. Some programming languages such as SQL, Batchfile, TypeScript are less likely to be permissively licensed (4% vs the average 10%). This may result in a biased representation of those languages. Permissively licensed files also tend to be longer.
+The majority of natural language present in code from GitHub is English.
+		Other Known Limitations
+	
+One of the current limitations of The Stack v2 is that scraped HTML for websites may not be compliant with Web Content Accessibility Guidelines (WCAG). This could have an impact on HTML-generated code that may introduce web accessibility issues.
+The training dataset could contain malicious code and/or the model could be used to generate malware or ransomware. 
+To the best of our knowledge, all files contained in the dataset are licensed with one of the permissive licenses (see list in Licensing information) or no license. 
+The accuracy of license attribution is limited by the accuracy of GHArchive and ScanCode Toolkit. 
+Any mistakes should be reported to BigCode Project for review and follow-up as needed. 
+		Additional Information
+	
+		Dataset Curators
+	
+Harm de Vries, ServiceNow Research, harm.devries@servicenow.com
+Leandro von Werra, Hugging Face, leandro@huggingface.co
+		Licensing Information
+	
+The Stack v2 is a collection of source code from repositories with various licenses. Any use of all or part of the code gathered in The Stack v2 must abide by the terms of the original licenses, including attribution clauses when relevant. We facilitate this by providing provenance information for each data point.
+The list of SPDX license identifiers included in the dataset can be found here.
+		Citation Information
+	
+@misc{lozhkov2024starcoder,
+      title={StarCoder 2 and The Stack v2: The Next Generation}, 
+      author={Anton Lozhkov and Raymond Li and Loubna Ben Allal and Federico Cassano and Joel Lamy-Poirier and Nouamane Tazi and Ao Tang and Dmytro Pykhtar and Jiawei Liu and Yuxiang Wei and Tianyang Liu and Max Tian and Denis Kocetkov and Arthur Zucker and Younes Belkada and Zijian Wang and Qian Liu and Dmitry Abulkhanov and Indraneil Paul and Zhuang Li and Wen-Ding Li and Megan Risdal and Jia Li and Jian Zhu and Terry Yue Zhuo and Evgenii Zheltonozhskii and Nii Osae Osae Dade and Wenhao Yu and Lucas Krauß and Naman Jain and Yixuan Su and Xuanli He and Manan Dey and Edoardo Abati and Yekun Chai and Niklas Muennighoff and Xiangru Tang and Muhtasham Oblokulov and Christopher Akiki and Marc Marone and Chenghao Mou and Mayank Mishra and Alex Gu and Binyuan Hui and Tri Dao and Armel Zebaze and Olivier Dehaene and Nicolas Patry and Canwen Xu and Julian McAuley and Han Hu and Torsten Scholak and Sebastien Paquet and Jennifer Robinson and Carolyn Jane Anderson and Nicolas Chapados and Mostofa Patwary and Nima Tajbakhsh and Yacine Jernite and Carlos Muñoz Ferrandis and Lingming Zhang and Sean Hughes and Thomas Wolf and Arjun Guha and Leandro von Werra and Harm de Vries},
+      year={2024},
+      eprint={2402.19173},
+      archivePrefix={arXiv},
+      primaryClass={cs.SE}
+}

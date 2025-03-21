@@ -1,0 +1,171 @@
+
+		Dataset Card for ArxivCap
+	
+		Data Instances
+	
+Example-1 of single (image, caption) pairs
+"......" stands for omitted parts.
+{
+    'src': 'arXiv_src_2112_060/2112.08947', 
+    'meta': 
+    {
+        'meta_from_kaggle': 
+        {
+            'journey': '', 
+            'license': 'http://arxiv.org/licenses/nonexclusive-distrib/1.0/', 
+            'categories': 'cs.ET'
+        }, 
+        'meta_from_s2': 
+        {
+            'citationCount': 8, 
+            'influentialCitationCount': 0, 
+            'publicationTypes': ['JournalArticle']
+        }
+    }, 
+    'arxiv_id': '2112.08947',
+    'title': 'Computational metrics and parameters of an injection-locked large area semiconductor laser for neural network computing', 
+    'abstract': 'Artificial neural networks have become a staple computing technique in many fields. Yet, they present fundamental differences with classical computing hardware in the way they process information. Photonic implementations of neural network architectures potentially offer fundamental advantages over their electronic counterparts in terms of speed, processing parallelism, scalability and energy efficiency. Scalable and high performance photonic neural networks (PNNs) have been demonstrated, yet they remain scarce. In this work, we study the performance of such a scalable, fully parallel and autonomous PNN based on a large area vertical-cavity surface-emitting laser\n(LA-VCSEL). We show how the performance varies with different physical parameters, namely, injection wavelength, injection power, and bias current. Furthermore, we link these physical parameters to the general computational measures of consistency and dimensionality. We present a general method of gauging dimensionality in high dimensional nonlinear systems subject to noise, which could be applied to many systems in the context of neuromorphic computing. Our work will inform future implementations of spatially multiplexed VCSEL PNNs.\n', 
+    'caption_images': 
+    [
+        {
+            'caption': '(a) Working principle of the LA-VCSEL spatially multiplexed reservoir. (b) Input information $\\mathbf{u}$ and the subsequent LA-VCSEL response for 3-bit binary headers. The graph shows the target output $y^{\\text{target}}$ (yellow) for classifying header 001 and different reservoir outputs $y^{\\text{out}}$ of decreasing mean square error (MSE) (red, blue and green). (c) Schematic illustration of the error landscape, showing the MSE as a function of the output weights configuration. The outlined (red, blue and green) Boolean matrices correspond to the output weights giving the output from (b). (d) Representative performance of the PNN on a 6-bit header recognition task.', 
+            'cil_pairs': 
+            [
+                {
+                    'sub_caption': '', 
+                    'image_file': 'arXiv_src_2112_060/2112.08947_0.jpg', 
+                    'image': <PIL.JpegImagePlugin.JpegImageFile image mode=RGB size=2016x1063 at 0x7F098E288040>, 
+                    'image_ocr': ['(a)', 'LA-VCSEL', 'DMDa', 'DMD', 'MMF', 'DET', 'Win', 'xt', 'Spatial positions', 'Output', 'Input', 'Wint', 'Carrier diffusion', 'Cavity diffraction', 'Reservoir', '(d)50', '6bit HR', 'Error(MSE)', '830', '001', '000', '001', '100', '001', '111', 'ER', 'S', '10', '0', 'Configuration DMD.', '0', '1000', 'Input examples', 'Learning epochs']
+                }
+            ]
+        }
+        ......
+    ]
+}
+Example-2 of multiple images and subcaptions
+"......" stands for omitted parts.
+{
+    'src': 'arXiv_src_0309_001/quant-ph0309051', 
+    'meta': 
+    {
+        'meta_from_kaggle': {'journey': '', 'license': '', 'categories': 'quant-ph'}, 
+        'meta_from_s2': {'citationCount': 9, 'influentialCitationCount': 1, 'publicationTypes': ['JournalArticle']}
+    }, 
+    'arxiv_id': 'quant-ph/0309051',
+    'title': 'Implementing a Quantum Algorithm with Exchange-Coupled Quantum Dots: a Feasibility study.', 
+    'abstract': '\nWe present Monte Carlo wavefunction simulations for quantum computations employing an exchange-coupled array of quantum dots. Employing a combination of experimentally and theoretically available parameters, we find that gate fidelities greater than 98 \\% may be obtained with current experimental and technological capabilities. Application to an encoded 3 qubit\n(nine physical qubits) Deutsch-Josza computation indicates that the algorithmic fidelity is more a question of the total time to implement the gates than of the physical complexity of those gates.\n', 
+    'caption_images': 
+    [
+        ......
+        {
+            'caption': 'Representation of analytic sequence of local transformations that transform the 19-exchange sequence $U_{cnot}^{exchange}$ from Ref. {divincenzo00} into the true CNOT in the computational basis. The exchange gates and times corresponding to the elementary local transformations are then obtained using the quaternion representation of the desired $SU(2)$ unitaries (see Appendix <ref> for details).', 
+            'cil_pairs': 
+            [
+                {
+                    'sub_caption': 'A single qubit gate ($\\frac{\\sqrt{3}}{2}-\\frac{i}{2}\\sigma_y$) acting on the second logical qubit diagonalizes the 19-gate exchange sequence. The resulting diagonal 4-by-4 matrix is then converted into the C-PHASE by $\\sigma_z$-rotations acting on both the first and the second qubit, with angles $\\phi=0.612497$ and $\\theta=-0.547580$, respectively. These values are determined from the analytic solutions to a linear equation system with 3 unknowns: $\\phi$, $\\theta$ and a global phase. See Appendix <ref> for details as to how these parameters were obtained.', 
+                    'image_file': 'arXiv_src_0309_001/quant-ph0309051_4.jpg', 
+                    'image': <PIL.JpegImagePlugin.JpegImageFile image mode=RGB size=2016x493 at 0x7F102471EF70>, 
+                    'image_ocr': ['Exch,', '7', 'C', '2', '+', '2', '2', 'CNOT', '2', '2', 'PHASE']
+                }, 
+                {
+                    'sub_caption': 'The C-PHASE gate can be transformed into the CNOT gate by acting with Hadamard gates on the second qubit before and after the C-PHASE gate.', 
+                    'image_file': 'arXiv_src_0309_001/quant-ph0309051_5.jpg', 
+                    'image': <PIL.JpegImagePlugin.JpegImageFile image mode=RGB size=2016x411 at 0x7F102471EDC0>, 
+                    'image_ocr': ['C', '2', 'PHASE']
+                }
+            ]
+        }, 
+        ......
+    ]
+}
+		Dataset Summary
+	
+The ArxivCap dataset consists of 6.4 million images and 3.9 million captions with 193 million words from 570k academic papers accompanied with abstracts and titles. (papers before June 2023)
+		Curation Process
+	
+Refer to our paper for the curation and filter process.
+		Dataset Structure
+	
+		Data Loading
+	
+from datasets import load_dataset
+dataset = load_dataset("MMInstruction/ArxivCap")
+dataset["train"]  # list of dictionaries
+# for quick download in linux
+set -e
+sudo apt-get install git-lfs -y
+git clone https://huggingface.co/datasets/MMInstruction/ArxivCap
+cd ArxivCap/data
+# then you can load the parquet files in python use something like
+data = load_dataset(
+    "parquet",
+    data_files="/path/to/parquet/arXiv_src_9912_001.parquet" 
+)
+		Data Fields
+	
+One record refers to one paper:
+src: String. "<Arxiv Tar File Name>/<Folder Name in Tar File>"e.g. "arXiv_src_2112_060/2112.08947"
+arxiv_id: String. Arxiv id of the paper, e.g. "2112.08947"
+title: String. Title of the paper.
+abstract: String. Abstract of the paper.
+meta:
+meta_from_kaggle: refers to arXiv Dataset
+journey: String. Information about the journal the paper was published in.
+licence: String. License for the paper.
+categories: String. Categories / tags in the ArXiv system.
+meta_from_s2: refers to SEMANTIC SCHOLAR
+citationCount: Integer. Total number of citations S2 has found for this paper
+influentialCitationCount: Integer. Refers here
+publicationTypes: List[String]. Journal Article, Conference, Review, etc.
+caption_images:
+caption: String. Main caption.
+cil_pairs:
+sub_caption: String. Subcaption for the image.
+image_file: String. Unique file name for the image.
+image: PIL.Image.Image. A PIL.Image.Image object containing the image.
+image_ocr: List[String]. OCR result for the image using PaddleOCR
+import datasets
+features = datasets.Features(
+    {
+        "src": datasets.Value("string"),
+        "arxiv_id": datasets.Value("string"),
+        "title": datasets.Value("string"),
+        "abstract": datasets.Value("string"),
+        "meta": {
+            "meta_from_kaggle": {
+                "journey": datasets.Value("string"),
+                "license": datasets.Value("string"),
+                "categories": datasets.Value("string"),
+            },
+            "meta_from_s2": {
+                "citationCount": datasets.Value("int32"), 
+                "influentialCitationCount": datasets.Value("int32"), 
+                "publicationTypes": [datasets.Value("string")], 
+            }
+        }, 
+        "caption_images": [{
+            "caption": datasets.Value("string"),
+            "cil_pairs": [{
+                "sub_caption": datasets.Value("string"),
+                "image_file": datasets.Value("string"),
+                "image": datasets.Image(),
+                "image_ocr": [datasets.Value("string")],
+            }]
+        }]
+    }
+)
+		Additional Information
+	
+		Licensing Information
+	
+ArxivCap is released under CC BY-NC-SA 4.0.
+		Citation Information
+	
+@misc{li2024multimodal,
+      title={Multimodal ArXiv: A Dataset for Improving Scientific Comprehension of Large Vision-Language Models}, 
+      author={Lei Li and Yuqi Wang and Runxin Xu and Peiyi Wang and Xiachong Feng and Lingpeng Kong and Qi Liu},
+      year={2024},
+      eprint={2403.00231},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV}
+}

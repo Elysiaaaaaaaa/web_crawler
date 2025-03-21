@@ -1,0 +1,36 @@
+
+Dolphin 🐬
+https://erichartford.com/dolphin
+		Dataset details
+	
+This dataset is an attempt to replicate the results of Microsoft's Orca
+Our dataset consists of:
+~1 million of FLANv2 augmented with GPT-4 completions (flan1m-alpaca-uncensored.jsonl)
+~3.5 million of FLANv2 augmented with GPT-3.5 completions (flan5m-alpaca-uncensored.jsonl)
+We followed the submix and system prompt distribution outlined in the Orca paper. With a few exceptions. We included all 75k of CoT in the FLAN-1m dataset rather than sampling that. Also, we found that many items were duplicated, so we removed duplicates, resulting in 3.5m instructs in the ChatGPT dataset.
+Then we filtered out instances of alignment, refusal, avoidance, and bias, in order to produce an uncensored model upon which can be layered your personalized alignment LoRA.
+Token distribution for GPT-3.5 completions
+		Loading
+	
+## load GPT-4 completions
+dataset = load_dataset("ehartford/dolphin",data_files="flan1m-alpaca-uncensored.jsonl")
+## load GPT-3.5 completions
+dataset = load_dataset("ehartford/dolphin",data_files="flan5m-alpaca-uncensored.jsonl")
+This dataset is licensed apache-2.0 for commercial or non-commercial use.
+We currently plan to release Dolphin on:
+Xgen 7b 8k
+LLaMA 13b (Non-commercial)
+MPT 30b 8k
+LLaMA 33b (Non-commercial)
+Falcon 40b
+LLaMA 65b (Non-commercial)
+The Dolphin models that are released will be subject to the license of the foundational model on which it is trained. (LLaMA releases will be non-commercial)
+I would like to thank the motley crew of Open Source AI/ML engineers who have worked beside me in this endeavor. Including:
+Wing "Caseus" Lian and NanoBit of OpenAccess AI Collective
+Rohan
+Teknium
+Pankaj Mathur
+Tom "TheBloke" Jobbins for quantizing and amplifying
+Special thanks to EdenCoder and chirper.ai for mentorship and financial sponsorship.
+Special thanks to Kilkonie for his very valued mentorship.
+All the other people in the Open Source AI community who have taught me and helped me along the way.

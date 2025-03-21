@@ -1,0 +1,59 @@
+
+UPDATE: The Internet Archive has requested that this dataset be deleted (see discussion #2) because they consider the IA's metadata too unreliable to determine whether a book is in the public domain. To alleviate the IA's concerns, the full texts of the books have been removed from this dataset until a more reliable way to curate public domain books from the IA collections is established. The metadata and documentation remain for reference purposes.
+I was able to recreate one subcollection from this dataset already (the Library of Congress Selected Digitized Books) as a separate full-text dataset using the LoC API and OCR: https://huggingface.co/datasets/storytracer/LoC-PD-Books. The LoC dataset contains 140,000 books (~8 billion words) which have been declared to be in the public domain in the United States by the LoC.
+		US Public Domain Books (English)
+	
+This dataset contains more than 650,000 English books (~ 61 billion words) presumed to be in the public domain in the US which were digitised by the Internet Archive and catalogued as part of the Open Library project. The dataset was compiled by Sebastian Majstorovic.
+		Dataset summary
+	
+The dataset contains 653,983 OCR texts (~ 200 million pages) from various collections of the Internet Archive (IA). Books in the IA can be distinguished from other types of documents by checking whether an IA item is linked to an Open Library (OL) record. Only texts with an OL record have been included in this dataset in order to restrict the dataset as much as possible to books.
+		Curation method
+	
+In order to reliably find public domain books among the IA collections, the dataset was curated by combining three approaches:
+Manually identifying IA collections which expliclity state that they exclusively contain public domain materials, e.g. the Cornell University Library collection or the LoC Selected Digitized Books collection and downloading them in bulk.
+Using the possible-copyright-status query parameter to search for items with the status NOT_IN_COPYRIGHT across all IA collections using the IA Search API.
+Restricting all IA searches with the query parameter openlibrary_edition:* to ensure that all returned items posses an OpenLibrary record, i.e. to ensure that they are books and not some other form of text.
+		Size
+	
+The size of the full uncompressed dataset is ~400GB and the compressed Parquet files are ~220GB in total. Each of the 327 Parquet files contains a maximum of 2000 books.
+		Metadata
+	
+The book texts are accompanied by basic metadata fields such as title, author and publication year, as well as IA and OL identifiers (see Data Fields). The metadata can be expanded with more information about subjects, authors, file details etc. by using the OL API, OL Data Dumps and the IA Metadata API.
+		Languages
+	
+Every book in this collection has been classified as having English as its primary language by the IA during the OCR process. A small number of books might also have other languages mixed in. In the future, more datasets will be compiled for other languages using the same methodology.
+		OCR
+	
+The OCR for the books was produced by the IA. You can learn more about the details of the IA OCR process here: https://archive.org/developers/ocr.html. The OCR quality varies from book to book. Future versions of this dataset might include OCR quality scores or even texts corrected post-OCR using LLMs.
+		Data fields
+	
+Field
+Data Type
+Description
+ocaid
+string
+IA item identifier, included in the IA item URL
+title
+string
+IA metadata field title
+author
+string
+IA metadata field creator (multiple values concatenated by semicolon)
+year
+int
+IA metadata field year
+page_count
+int
+IA metadata field imagecount
+openlibrary_edition
+string
+OL edition, referenced from IA metadata field openlibrary_edition
+openlibrary_work
+string
+OL work, referenced from IA metadata field openlibrary_work
+full_text
+string
+Content of the IA item's plain text OCR file ending in _djvu.txt
+		Copyright & License
+	
+The full texts of the works included in this dataset are presumed to be in the public domain and free of known copyrights in the United States by the institutions who have contributed them to the collections of the Internet Archive. It is the responsibility of the dataset user to comply with the copyright laws in their respective jurisdiction. The dataset itself, excluding the full texts, is licensed under the CC0 license.

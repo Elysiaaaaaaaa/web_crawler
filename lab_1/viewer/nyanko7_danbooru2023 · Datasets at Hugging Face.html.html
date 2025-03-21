@@ -1,0 +1,30 @@
+
+		Danbooru2023: A Large-Scale Crowdsourced and Tagged Anime Illustration Dataset
+	
+Danbooru2023 is a large-scale anime image dataset with over 5 million images contributed and annotated in detail by an enthusiast community. Image tags cover aspects like characters, scenes, copyrights, artists, etc with an average of 30 tags per image.
+Danbooru is a veteran anime image board with high-quality images and extensive tag metadata. The dataset can be used to train image classification, multi-label tagging, character detection, generative models, and other computer vision tasks.
+Shared by: Nyanko Devs
+Language(s): English, Japanese
+License: MIT
+This dataset is built on the top of danbooru2021. We expands the dataset to include images up to ID #6,857,737, adding over 1.8 million additional images and total size is now approximately 8 terabytes (8,000 GB).
+		Use
+	
+		Format
+	
+The goal of the dataset is to be as easy as possible to use immediately, avoiding obscure file formats, while allowing simultaneous research & seeding of the torrent, with easy updates.
+Images are provided in the full original form (be that JPG, PNG, GIF or otherwise) for reference/archival purposes, and bucketed into 1000 subdirectories 0000–0999 (0-padded), which is the Danbooru ID modulo 1000 (ie. all images in 0999/ have an ID ending in ‘999’); IDs can be turned into paths by dividing & padding (eg. in Bash, BUCKET=$(printf "%04d" $(( ID % 1000 )) )) and then the file is at {original,512px}/$BUCKET/$ID.$EXT. 
+The reason for the bucketing is that a single directory would cause pathological filesystem performance, and modulo ID is a simple hash which spreads images evenly without requiring additional future directories to be made or a filesystem IO to check where the file is. The ID is not zero-padded and files end in the relevant extension, hence the file layout looks like this:
+$ tree / | less
+/
+├── danbooru2023 -> /mnt/diffusionstorage/workspace/danbooru/
+│   ├── metadata
+│   ├── readme.md
+│   ├── original
+│   │   ├── 0000 -> data-0000.tar
+│   │   ├── 0001 -> data-0001.tar
+│   │   │   ├── 10001.jpg
+│   │   │   ├── 210001.png
+│   │   │   ├── 3120001.webp
+│   │   │   ├── 6513001.jpg
+Currently represented file extensions are: avi/bmp/gif/html/jpeg/jpg/mp3/mp4/mpg/pdf/png/rar/swf/webm/wmv/zip. 
+Raw original files are treacherous. Be careful if working with the original dataset. There are many odd files: truncated, non-sRGB colorspace, wrong file extensions (eg. some PNGs have .jpg extensions like original/0146/1525146.jpg or original/0558/1422558.jpg), etc.

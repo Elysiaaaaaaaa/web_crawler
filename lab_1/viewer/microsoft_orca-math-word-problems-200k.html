@@ -1,0 +1,78 @@
+
+		Dataset Card
+	
+This dataset contains ~200K grade school math word problems. All the answers in this dataset is generated using Azure GPT4-Turbo. Please refer to Orca-Math: Unlocking the potential of
+SLMs in Grade School Math for details about the dataset construction. 
+		Dataset Sources
+	
+Repository: microsoft/orca-math-word-problems-200k
+Paper: Orca-Math: Unlocking the potential of
+SLMs in Grade School Math
+		Direct Use
+	
+This dataset has been designed to enhance the mathematical abilities of language models. It aims to provide a robust foundation for language models to excel in mathematical problem-solving.
+		Out-of-Scope Use
+	
+This dataset is not intended for use in educational systems or organizations.
+		Dataset Structure
+	
+		Data Instances
+	
+A typical data entry in the dataset consists of a question and its corresponding answer. Below is an example from the dataset:
+{'question': 'In a highly contested election having multiple candidates, Mr. Jackson, one of the losing candidates, received 3,485,782 votes, which accounted for precisely 38.7 percent of all votes. To have achieved a victory, he would have needed to secure at least 51 percent of all votes. Approximately, what percent of the remaining unsecured votes would Mr. Jackson have needed to accumulate to reach this victory threshold?',
+ 'answer': "First, let's find out the total number of votes cast in the election. Since Mr. Jackson received 38.7% of all votes, and that amounted to 3,485,782 votes, we can set up the following equation to find the total number of votes (T):\n\n0.387 * T = 3,485,782\n\nNow, solve for T:\n\nT = 3,485,782 / 0.387\nT ≈ 9,000,467 votes (total number of votes cast)\n\nTo win, Mr. Jackson would have needed 51% of the total votes. Let's calculate that amount:\n\n0.51 * T = 0.51 * 9,000,467\n0.51 * T ≈ 4,590,238 votes needed to win\n\nNow, let's find out how many more votes Mr. Jackson needed to reach this winning threshold:\n\nVotes needed to win - Votes Mr. Jackson received = Additional votes needed\n4,590,238 - 3,485,782 = 1,104,456 additional votes needed\n\nNow, let's find out what percentage of the remaining unsecured votes this number represents. The remaining unsecured votes are the votes that were not for Mr. Jackson, which is 100% - 38.7% = 61.3% of the total votes.\n\n61.3% of the total votes is the remaining unsecured votes:\n\n0.613 * T = 0.613 * 9,000,467\n0.613 * T ≈ 5,514,686 votes were unsecured\n\nNow, we'll calculate the percentage of these unsecured votes that the additional votes needed represent:\n\n(Additional votes needed / Unsecured votes) * 100 = Percentage of unsecured votes needed\n(1,104,456 / 5,514,686) * 100 ≈ 20.03%\n\nSo, Mr. Jackson would have needed approximately 20.03% of the remaining unsecured votes to reach the victory threshold of 51%."}
+		Data Fields
+	
+The dataset comprises the following fields:
+question: a string containing the question to be answered.
+answer: a string containing the answer to the corresponding question.
+		Data Splits
+	
+The dataset is split into a training set. The number of rows in each split is as follows:
+train: 200,035 rows
+The DatasetDict structure for the dataset is as follows:
+DatasetDict({
+    'train': Dataset({
+        features: ['question', 'answer'],
+        num_rows: 200035
+    })
+})
+Each split in the DatasetDict contains a Dataset object with the specified features and number of rows.
+		Dataset Creation
+	
+Please refer to Orca-Math: Unlocking the potential of
+SLMs in Grade School Math for details about the dataset construction. 
+		Source Data
+	
+Lila
+DMath
+		Data Collection and Processing
+	
+Please refer to Orca-Math: Unlocking the potential of
+SLMs in Grade School Math for details about the dataset construction. 
+		Who are the source data producers?
+	
+Microsoft
+		Annotation process
+	
+We expanded a seed set of questions using Azure GPT-4 Trubo. The answers to those questions are generated using Azure GPT-4 Trubo.
+		Personal and Sensitive Information
+	
+None
+		Bias, Risks, and Limitations
+	
+This dataset is in English and contains only math word problems.
+		Citation
+	
+If you find this work useful in your method, you can cite the paper as below:
+@misc{mitra2024orcamath,
+      title={Orca-Math: Unlocking the potential of SLMs in Grade School Math}, 
+      author={Arindam Mitra and Hamed Khanpour and Corby Rosset and Ahmed Awadallah},
+      year={2024},
+      eprint={2402.14830},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
+		Dataset Card Contact
+	
+Arindam Mitra

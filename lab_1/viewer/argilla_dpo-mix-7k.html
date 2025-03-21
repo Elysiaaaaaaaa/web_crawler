@@ -1,0 +1,15 @@
+
+		Argilla DPO Mix 7K Dataset
+	
+A small cocktail combining DPO datasets built by Argilla with distilabel. The goal of this dataset is having a small, high-quality DPO dataset by filtering only highly rated chosen responses. 
+		Datasets mixed
+	
+As already mentioned, this dataset mixes the following datasets:
+argilla/distilabel-capybara-dpo-7k-binarized: random sample of highly scored chosen responses (>=4).
+argilla/distilabel-intel-orca-dpo-pairs: random sample of highly scored chosen responses (>=8).
+argilla/ultrafeedback-binarized-preferences-cleaned: random sample of highly scored chosen responses (>=4).
+The samples have been randomly selected from the original datasets with a proportion of 0.33 each, as can be seen via the dataset column of the dataset.
+		Next steps
+	
+Adding more samples
+Use data selection techniques to improve the diversity, usefulness, and complexity of the dataset.

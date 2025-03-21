@@ -1,0 +1,92 @@
+
+		Core-S2L2A
+	
+Contains a global coverage of Sentinel-2 (Level 1C) patches, each of size 1,068 x 1,068 pixels.
+Source
+Sensing Type
+Number of Patches
+Patch Size
+Total Pixels
+Sentinel-2 Level-2A
+Optical Multispectral
+2,245,886
+1,068 x 1,068 (10 m)
+> 2.564 Trillion
+		Content
+	
+Column
+Details
+Resolution
+B01
+Coastal aerosol, 442.7 nm (S2A), 442.3 nm (S2B)
+60m
+B02
+Blue, 492.4 nm (S2A), 492.1 nm (S2B)
+10m
+B03
+Green, 559.8 nm (S2A), 559.0 nm (S2B)
+10m
+B04
+Red, 664.6 nm (S2A), 665.0 nm (S2B)
+10m
+B05
+Vegetation red edge, 704.1 nm (S2A), 703.8 nm (S2B)
+20m
+B06
+Vegetation red edge, 740.5 nm (S2A), 739.1 nm (S2B)
+20m
+B07
+Vegetation red edge, 782.8 nm (S2A), 779.7 nm (S2B)
+20m
+B08
+NIR, 832.8 nm (S2A), 833.0 nm (S2B)
+10m
+B8A
+Narrow NIR, 864.7 nm (S2A), 864.0 nm (S2B)
+20m
+B09
+Water vapour, 945.1 nm (S2A), 943.2 nm (S2B)
+60m
+B11
+SWIR, 1613.7 nm (S2A), 1610.4 nm (S2B)
+20m
+B12
+SWIR, 2202.4 nm (S2A), 2185.7 nm (S2B)
+20m
+cloud_mask
+Cloud Mask produced by SEnSeI
+10m
+thumbnail
+RGB composite [B04, B03, B02] saved as png
+10m
+		Spatial Coverage
+	
+This is a global monotemporal dataset. Nearly every piece of Earth captured by Sentinel-2 is contained at least once in this dataset (and only once, excluding some marginal overlaps).
+The following figure demonstrates the spatial coverage (only black pixels are absent):
+		Example Use
+	
+Interface scripts are available at https://github.com/ESA-PhiLab/Major-TOM
+Here's a sneak peek with a thumbnail image:
+from fsspec.parquet import open_parquet_file
+import pyarrow.parquet as pq
+from io import BytesIO
+from PIL import Image
+PARQUET_FILE = 'part_03900' # parquet number
+ROW_INDEX = 42 # row number (about 500 per parquet)
+url = "https://huggingface.co/datasets/Major-TOM/Core-S2L2A/resolve/main/images/{}.parquet".format(PARQUET_FILE)
+with open_parquet_file(url,columns = ["thumbnail"]) as f:
+    with pq.ParquetFile(f) as pf:
+        first_row_group = pf.read_row_group(ROW_INDEX, columns=['thumbnail'])
+stream = BytesIO(first_row_group['thumbnail'][0].as_py())
+image = Image.open(stream)
+		Cite
+	
+@inproceedings{Major_TOM,
+  title={Major TOM: Expandable Datasets for Earth Observation}, 
+  author={Alistair Francis and Mikolaj Czerkawski},
+  year={2024},
+  eprint={2402.12095},
+  archivePrefix={arXiv},
+  primaryClass={cs.CV}
+}
+Powered by Φ-lab, European Space Agency (ESA) 🛰️

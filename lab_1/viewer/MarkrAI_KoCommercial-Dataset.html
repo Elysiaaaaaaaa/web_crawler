@@ -1,0 +1,82 @@
+
+		Dataset: KoCommercial-Dataset
+	
+		Info
+	
+Dataset 개수: 약 1.44M
+License: MIT 
+Dataset list(전부 상업적 용도로 이용가능) 
+kyujinpy/KOpen-platypus (*Except non-commercial datasets)
+beomi/KoAlpaca-v1.1a
+HumanF-MarkrAI/WIKI_QA_Near_dedup
+KorQuadv1.0
+AIHUB
+일반상식 문장 생성 데이터
+도서자료 요약
+논문자료 요약
+문서요약 텍스트
+Self-Supervised method(AIHUB 데이터셋 가공) 
+0. (Default) Summary & Instruction-Answer 
+<Instruction>
+주어진 문장에 적절한 제목을 생성하고, 내용을 요약해주세요.
+문장: 원고가 소속회사의 노동조합에서 분규가 발생하자 노조활동을 구실로 정상적인 근무를 해태하고, ...
+<Answer>
+제목: 부당노동행위구제재심판정취소
+원고가  주동하여 회사업무능률을 저해하고 회사업무상의 지휘명령에 위반하였다면 이에 따른 징계해고는 사내질서를 유지하기 위한 사용자 고유의 정당한 징계권의 행사로 보아야 한다.
+1. Sentence order inference 
+<Instruction>
+임의의 순서로 나열된 문장들이 주어집니다. 주어진 문장들을 이용해 원본의 배열을 유추하고, 그 내용을 재구성하세요.
+임의의 순서로 나열된 문장: ['나는', '천재다', '그러나', '바보다', '동시에']
+<Answer>
+나는 천재다. 그러나 동시에 바보다.
+2. Original sentence inference
+<Instruction>
+주어진 제목과 요약문에 대한 정보를 토대로, 요약되기 전 문장을 유추해서 생성해주세요.
+제목: 수산물 수급 위기관리체계 구축을 위한 기초연구
+요약문: 현대 사회에서 발생하는 다양하고...
+<Answer>
+지금의 국가가 직면하는 위기는 전통사회의 그것과 위기의 규모뿐만아니라...
+3. Last sentence prediction
+<Instruction>
+주어진 문장 뒤에 자연스럽게 이어질 문장을 생성해주세요.
+문장: ...최근에 방문한 조선예술영화촬영소 에 있는 ‘문화성혁명사적관’(김정일관)에는 1960년대 중반부터 2000년대까지 40년 동안 김정일의 문화예술 부문 지도가 11,890건이며, 그 중 문화예술기관을 직접 방문하여 지도한 이른바 ‘현지지도’가 1,770건이라는 안내판이 있었다.
+<Answer>
+북한 연극이 김정일과 주체사상이라는 키워드를 떠나 존재할 수 없다는 것을 단적으로 말해 준다
+4. Multi question
+<Instruction>
+주어진 정보를 기반으로 질문에 답하세요. 답을 모른다면 답을 지어내지 말고 그냥 모른다고 말하세요.
+1839년 바그너는 괴테의 파우스트을 처음 읽고 그 내용에 마음이...
+질문:
+1. 바그너는 괴테의 파우스트를 읽고 무엇을 쓰고자 했는가?
+2. 바그너는 교향곡 작곡을 어디까지 쓴 뒤에 중단했는가?
+3. 바그너가 파우스트 서곡을 쓸 때 어떤 곡의 영향을 받았는가?
+4. 1839년 바그너가 교향곡의 소재로 쓰려고 했던 책은?
+5. 파우스트 서곡의 라단조 조성이 영향을 받은 베토벤의 곡은?
+6. 바그너가 파우스트를 처음으로 읽은 년도는?
+7. 바그너가 처음 교향곡 작곡을 한 장소는?
+8. 바그너의 1악장의 초연은 어디서 연주되었는가?
+<Answer>
+1. 교향곡
+2. 1악장
+3. 베토벤의 교향곡 9번
+4. 파우스트
+5. 합창교향곡
+6. 1839
+7. 파리
+8. 드레스덴
+5. Mask Prediction
+<Instruction>
+주어진 문장에서 <MASK>에 들어갈 적절한 단어를 생성해주세요.
+독도는 <MASK> 이다.
+<Answer>
+우리땅
+		References
+	
+1.The CoT Collection: Improving Zero-shot and Few-shot Learning of Language Models via Chain-of-Thought Fine-Tuning (Kim et al., 2023)
+2.Adapting Large Language Models via Reading Comprehension (Cheng et al., 2023) 
+3.Deduplicating Training Data Makes Language Models Better(Lee et al., 2021)
+		Acknowledgement
+	
+이 모델은 과학기술정보통신부·광주광역시가 공동 지원한 '인공지능 중심 산업융합 집적단지 조성사업'으로 지원을 받아 수행된 연구 결과입니다.
+This model was supported by Artificial intelligence industrial convergence cluster development project funded by the Ministry of Science and ICT(MSIT, Korea)&Gwangju Metropolitan City.
+또한 수많은 오픈소스 개발자들과 연구자들에게 감사드리고, 최근 한국어 LLM 오픈생태계에 많은 공헌을 해주신, Beomi 님과 maywell 님에게도 감사의 인사 드립니다.
